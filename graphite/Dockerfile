@@ -4,7 +4,7 @@ MAINTAINER Invictus Capital <matthew@invictuscapital.com>
 
 RUN apt-get -y update \
   && apt-get -y upgrade \
-  && apt-get -y install vim \
+  && apt-get -y install nano \
   nginx \
   python-dev \
   python-flup \
@@ -76,14 +76,15 @@ RUN pip install -r requirements.txt \
 
 # config graphite
 ADD conf/opt/graphite/conf/*.conf /opt/graphite/conf/
-ADD conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
+
+# ADD conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
 # ADD conf/opt/graphite/webapp/graphite/app_settings.py /opt/graphite/webapp/graphite/app_settings.py
 WORKDIR /opt/graphite/webapp
 RUN mkdir -p /var/log/graphite/ \
   && PYTHONPATH=/opt/graphite/webapp django-admin.py collectstatic --noinput --settings=graphite.settings
 
 # config statsd
-ADD conf/opt/statsd/config_*.js /opt/statsd/
+# ADD conf/opt/statsd/config_*.js /opt/statsd/
 
 # config nginx
 RUN rm /etc/nginx/sites-enabled/default
@@ -107,16 +108,16 @@ ADD conf/etc/service/statsd/run /etc/service/statsd/run
 ADD conf/etc/service/nginx/run /etc/service/nginx/run
 
 # default conf setup
-ADD conf /etc/graphite-statsd/conf
+# ADD conf /etc/graphite-statsd/conf ??
 ADD conf/etc/my_init.d/01_conf_init.sh /etc/my_init.d/01_conf_init.sh
 
 # cleanup
 RUN apt-get clean\
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# defaults
-EXPOSE 80 2003-2004 2023-2024 8080 8125 8125/udp 8126
-VOLUME ["/opt/graphite/conf", "/opt/graphite/storage", "/opt/graphite/webapp/graphite/functions/custom", "/etc/nginx", "/opt/statsd", "/etc/logrotate.d", "/var/log"]
+# defaults: API : 80, carbon-cache daemons : 2003-2004, carbon-aggregator : 2023-2024,
+EXPOSE 80 2003-2004 2023-2024
+VOLUME ["/opt/graphite/conf", "/opt/graphite/storage", "/opt/graphite/webapp/graphite/functions/custom", "/etc/nginx", "/etc/logrotate.d", "/var/log"]
 WORKDIR /
 ENV HOME /root
 ENV STATSD_INTERFACE udp
