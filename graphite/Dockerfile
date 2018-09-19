@@ -104,7 +104,7 @@ ADD conf/etc/logrotate.d/graphite-statsd /etc/logrotate.d/graphite-statsd
 ADD conf/etc/service/carbon/run /etc/service/carbon/run
 ADD conf/etc/service/carbon-aggregator/run /etc/service/carbon-aggregator/run
 ADD conf/etc/service/graphite/run /etc/service/graphite/run
-ADD conf/etc/service/statsd/run /etc/service/statsd/run
+# ADD conf/etc/service/statsd/run /etc/service/statsd/run
 ADD conf/etc/service/nginx/run /etc/service/nginx/run
 
 # default conf setup
