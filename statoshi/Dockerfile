@@ -18,4 +18,5 @@ RUN cd /tmp/statoshi && make install
 ADD conf/bitcoind.conf /etc/default/bitcoind
 
 EXPOSE 8333 8125 8125/udp
+VOLUME ["/root/.bitcoin"]
 CMD ["bitcoind"]

@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.10.2
 MAINTAINER Invictus Capital <matthew@invictuscapital.com>
-# hheavily based on https://github.com/graphite-project/docker-graphite-statsd/blob/master/Dockerfile
+# heavily based on https://github.com/graphite-project/docker-graphite-statsd/blob/master/Dockerfile
 
 RUN apt-get -y update \
   && apt-get -y upgrade \
@@ -120,6 +120,5 @@ EXPOSE 80 2003-2004 2023-2024
 VOLUME ["/opt/graphite/conf", "/opt/graphite/storage", "/opt/graphite/webapp/graphite/functions/custom", "/etc/nginx", "/etc/logrotate.d", "/var/log"]
 WORKDIR /
 ENV HOME /root
-ENV STATSD_INTERFACE udp
 
 CMD ["/sbin/my_init"]
