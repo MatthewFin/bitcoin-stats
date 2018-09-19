@@ -1,11 +1,12 @@
 FROM debian:latest
 MAINTAINER Invictus Capital <matthew@invictuscapital.com>
-LABEL statoshi.image-specs="{\"Description\":\"A containerized Statoshi\, a fork of Bitcoin Core\, running on Debian using Docker\"}"
+# based on https://github.com/ArtDodger/statoshi-lite/blob/master/Dockerfile
+LABEL statoshidockerized
 
 # 0. update Debain and installing dependencies
 
 RUN apt-get update
-RUN apt-get install -y nano wget
+RUN apt-get install -y nano wget procps
 RUN apt-get install -y autoconf automake autotools-dev build-essential python3 bsdmainutils git libboost-all-dev libssl-dev libtool pkg-config libevent-dev
 RUN useradd -d /home/statoshi -m -s /bin/bash -c "Statoshi" statoshi
 RUN apt-get install -y sudo
@@ -21,7 +22,7 @@ RUN chown statoshi:statoshi -R /home/statoshi
 # RUN cd /home/statoshi && git clone http://github.com/jlopp/bitcoin-utils
 # RUN sed -i 's/memory          = psutil.phymem_usage()/memory          = psutil.virtual_memory()/g' /home/statoshi/bitcoin-utils/systemMetricsDaemon.py
 
-RUN cd /tmp && git clone  https://github.com/jlopp/statoshi.git
+RUN cd /tmp && git clone https://github.com/jlopp/statoshi.git
 RUN cd /tmp/statoshi && ./autogen.sh
 RUN cd /tmp/statoshi && ./configure --disable-wallet --with-cli --without-gui --enable-hardening --without-miniupnpc
 RUN cd /tmp/statoshi && make
