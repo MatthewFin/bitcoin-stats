@@ -1,3 +1,6 @@
+#!/bin/bash
+
+conf_dir=/etc/graphite-statsd/conf
 # auto setup statsd with default config if /opt/statsd is missing
 # needed for the use case when a docker host volume is mounted at an of the following:
 #  - /opt/statsd
