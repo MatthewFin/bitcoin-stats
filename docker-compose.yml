@@ -2,7 +2,7 @@ version: '3'
 
 services:
   graphite:
-    image: graphite
+    build: ./graphite
     ports:
       - "80:80"
     volumes:
@@ -11,13 +11,13 @@ services:
     networks:
       - stats
   statsd:
-    image: statsd
+    build: ./statsd
     volumes:
       - /opt/statsd:/opt/statsd
     networks:
       - stats
   statoshi:
-    image: statoshi
+    build: ./statoshi
     ports:
       - 8333:8333
     volumes:
