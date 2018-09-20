@@ -1,6 +1,15 @@
-FROM node:8
+FROM phusion/baseimage:0.10.2
 MAINTAINER Invictus Capital <matthew@invictuscapital.com>
 # based on https://github.com/graphite-project/docker-graphite-statsd/blob/master/Dockerfile
+
+RUN apt-get -y update \
+  && apt-get -y upgrade \
+  && apt-get -y install nano \
+  python-dev \
+  expect \
+  git \
+  nodejs \
+  && rm -rf /var/lib/apt/lists/*
 
 ARG statsd_version=v0.8.0
 ARG statsd_repo=https://github.com/etsy/statsd.git

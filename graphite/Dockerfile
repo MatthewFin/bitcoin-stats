@@ -20,7 +20,6 @@ RUN apt-get -y update \
   python-cairo \
   python-rrdtool \
   pkg-config \
-  nodejs \
   && rm -rf /var/lib/apt/lists/*
 
 # choose a timezone at build-time
@@ -50,10 +49,6 @@ ARG whisper_repo=https://github.com/graphite-project/whisper.git
 ARG carbon_repo=https://github.com/graphite-project/carbon.git
 ARG graphite_repo=https://github.com/graphite-project/graphite-web.git
 
-# ARG statsd_version=v0.8.0
-
-# ARG statsd_repo=https://github.com/etsy/statsd.git
-
 # install whisper
 RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whisper
 WORKDIR /usr/local/src/whisper
@@ -70,9 +65,6 @@ RUN git clone -b ${graphite_version} --depth 1 ${graphite_repo} /usr/local/src/g
 WORKDIR /usr/local/src/graphite-web
 RUN pip install -r requirements.txt \
   && python ./setup.py install
-
-# install statsd
-# RUN git clone -b ${statsd_version} ${statsd_repo} /opt/statsd
 
 # config graphite
 ADD conf/opt/graphite/conf/*.conf /opt/graphite/conf/
@@ -108,7 +100,7 @@ ADD conf/etc/service/graphite/run /etc/service/graphite/run
 ADD conf/etc/service/nginx/run /etc/service/nginx/run
 
 # default conf setup
-# ADD conf /etc/graphite-statsd/conf ??
+ADD conf /etc/graphite-statsd/conf
 ADD conf/etc/my_init.d/01_conf_init.sh /etc/my_init.d/01_conf_init.sh
 
 # cleanup
