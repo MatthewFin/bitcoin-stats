@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  graphite:
+    image: graphite
+    ports:
+      - "80:80"
+    volumes:
+      - /opt/graphite/storage:/opt/graphite/storage
+      - /opt/graphite/conf:/opt/graphite/conf
+    networks:
+      - stats
+  statsd:
+    image: statsd
+    volumes:
+      - /opt/statsd:/opt/statsd
+    networks:
+      - stats
+  statoshi:
+    image: statoshi
+    ports:
+      - 8333:8333
+    volumes:
+      - ~/.bitcoin:/root/.bitcoin
+    networks:
+      - stats
+
+networks:
+  stats:
+    driver: bridge
