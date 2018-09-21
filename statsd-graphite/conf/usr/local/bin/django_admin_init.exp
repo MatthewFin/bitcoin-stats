@@ -1,13 +1,13 @@
 #!/usr/bin/env expect
 
 set timeout -1
-spawn python /opt/graphite/webapp/graphite/manage.py syncdb
+spawn /usr/local/bin/manage.sh
 
-expect "Would you like to create one now" {
-  send "yes\r"
-}
+#expect "Would you like to create one now" {
+#  send "yes\r"
+#}
 
-expect "Username" {
+expect "Username (leave blank to use 'root'):" {
   send "root\r"
 }
 
